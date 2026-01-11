@@ -1,0 +1,2 @@
+# oxwm
+my oxwm config
