@@ -1,2 +1,2 @@
-# oxwm
-my oxwm config
+# Prerequisites
+oxwm, xclip, dmenu, maim
