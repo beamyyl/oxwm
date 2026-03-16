@@ -1,9 +1,6 @@
 ---@meta
 ---@module 'oxwm'
 
------------------------------
--- Variables
------------------------------
 local modkey = "Mod4"
 local altkey = "Mod1"
 local terminal = "alacritty"
@@ -15,22 +12,16 @@ local tags = { "1","2","3","4","5","6","7","8","9","10" }
 local colors = {
     bg = "#1a1b26",
     active_bg = "#7aa2f7",
-    active_fg = "#1a1b26",
+    active_fg = "#c0caf5",
     inactive_bg = "#24283b",
     inactive_fg = "#c0caf5",
     urgent = "#f7768e"
 }
 
------------------------------
--- Basic Settings
------------------------------
 oxwm.set_terminal(terminal)
 oxwm.set_modkey(modkey)
 oxwm.set_tags(tags)
 
------------------------------
--- Appearance
------------------------------
 oxwm.border.set_width(2)
 oxwm.border.set_focused_color(colors.active_bg)
 oxwm.border.set_unfocused_color(colors.inactive_bg)
@@ -38,76 +29,65 @@ oxwm.border.set_unfocused_color(colors.inactive_bg)
 oxwm.gaps.set_inner(5,5)
 oxwm.gaps.set_outer(5,5)
 
------------------------------
--- Layout symbols
------------------------------
 oxwm.set_layout_symbol("tiling","[T]")
 oxwm.set_layout_symbol("normie","[F]")
 oxwm.set_layout_symbol("tabbed","[=]")
 
------------------------------
--- Keybindings
------------------------------
+oxwm.bar.set_font("Iosevka Nerd Font:style=Bold:size=12")
 
--- Terminal (Ctrl+Alt+T)
-oxwm.key.bind({"Control",altkey},"T",
-    oxwm.spawn_terminal()
-)
+local blocks = {
+    oxwm.bar.block.datetime({
+        format = "{}",
+        date_format = "%a %b %d %H:%M",
+        interval = 1,
+        color = "#7dcfff",
+        underline = true,
+    }),
+    oxwm.bar.block.static({
+        text = " │ ",
+        interval = 999999999,
+        color = "#c0caf5",
+        underline = false,
+    }),
+    oxwm.bar.block.battery({
+        format = "BAT {}%",
+        charging = "⚡ {}%",
+        discharging = "🔋 {}%",
+        full = "✓ {}%",
+        interval = 30,
+        color = "#9ece6a",
+        underline = true,
+    }),
+}
 
--- File manager (Mod+E)
-oxwm.key.bind({modkey},"E",
-    oxwm.spawn({"sh","-c",filemanager})
-)
+oxwm.bar.set_blocks(blocks)
 
--- Launcher (Mod+R)
-oxwm.key.bind({modkey},"R",
-    oxwm.spawn({"sh","-c",launcher})
-)
+oxwm.bar.set_scheme_normal(colors.inactive_fg, colors.bg, colors.inactive_bg)
+oxwm.bar.set_scheme_occupied(colors.active_fg, colors.bg, colors.active_bg)
+oxwm.bar.set_scheme_selected(colors.active_fg, colors.active_bg, colors.active_bg)
+oxwm.bar.set_scheme_urgent(colors.urgent, colors.bg, colors.urgent)
 
--- Screenshot
-oxwm.key.bind({},"Print",
-    oxwm.spawn({"sh","-c","maim -s | xclip -selection clipboard -t image/png"})
-)
+oxwm.key.bind({"Control",altkey},"T", oxwm.spawn_terminal())
+oxwm.key.bind({modkey},"E", oxwm.spawn({"sh","-c",filemanager}))
+oxwm.key.bind({modkey},"R", oxwm.spawn({"sh","-c",launcher}))
+oxwm.key.bind({},"Print", oxwm.spawn({"sh","-c","maim -s | xclip -selection clipboard -t image/png"}))
+oxwm.key.bind({altkey},"F4", oxwm.client.kill())
+oxwm.key.bind({modkey,"Shift"},"Q", oxwm.client.kill())
+oxwm.key.bind({modkey},"F", oxwm.client.toggle_fullscreen())
+oxwm.key.bind({modkey},"T", oxwm.client.toggle_floating())
 
--- Kill window (Alt+F4)
-oxwm.key.bind({altkey},"F4",
-    oxwm.client.kill()
-)
+oxwm.key.bind({altkey},"Left", oxwm.client.focus_stack(-1))
+oxwm.key.bind({altkey},"Right",oxwm.client.focus_stack(1))
+oxwm.key.bind({altkey},"Up",   oxwm.client.focus_stack(-1))
+oxwm.key.bind({altkey},"Down", oxwm.client.focus_stack(1))
 
--- Kill (Mod+Shift+Q)
-oxwm.key.bind({modkey,"Shift"},"Q",
-    oxwm.client.kill()
-)
-
--- Fullscreen (Mod+F)
-oxwm.key.bind({modkey},"F",
-    oxwm.client.toggle_fullscreen()
-)
-
--- Floating toggle (Mod+T)
-oxwm.key.bind({modkey},"T",
-    oxwm.client.toggle_floating()
-)
-
------------------------------
--- Focus movement (Arrow keys)
------------------------------
-oxwm.key.bind({modkey},"Left", oxwm.client.focus_stack(-1))
-oxwm.key.bind({modkey},"Right",oxwm.client.focus_stack(1))
-oxwm.key.bind({modkey},"Up",   oxwm.client.focus_stack(-1))
-oxwm.key.bind({modkey},"Down", oxwm.client.focus_stack(1))
-
------------------------------
--- Move windows
------------------------------
 oxwm.key.bind({modkey,"Shift"},"Left", oxwm.client.move_stack(-1))
 oxwm.key.bind({modkey,"Shift"},"Right",oxwm.client.move_stack(1))
 oxwm.key.bind({modkey,"Shift"},"Up",   oxwm.client.move_stack(-1))
 oxwm.key.bind({modkey,"Shift"},"Down", oxwm.client.move_stack(1))
+oxwm.key.bind({modkey},"Left", oxwm.set_master_factor(-30))
+oxwm.key.bind({modkey},"Right", oxwm.set_master_factor(30))
 
------------------------------
--- Workspace navigation
------------------------------
 oxwm.key.bind({modkey},"1", oxwm.tag.view(0))
 oxwm.key.bind({modkey},"2", oxwm.tag.view(1))
 oxwm.key.bind({modkey},"3", oxwm.tag.view(2))
@@ -119,7 +99,6 @@ oxwm.key.bind({modkey},"8", oxwm.tag.view(7))
 oxwm.key.bind({modkey},"9", oxwm.tag.view(8))
 oxwm.key.bind({modkey},"0", oxwm.tag.view(9))
 
--- Move window to workspace
 oxwm.key.bind({modkey,"Shift"},"1", oxwm.tag.move_to(0))
 oxwm.key.bind({modkey,"Shift"},"2", oxwm.tag.move_to(1))
 oxwm.key.bind({modkey,"Shift"},"3", oxwm.tag.move_to(2))
@@ -131,16 +110,10 @@ oxwm.key.bind({modkey,"Shift"},"8", oxwm.tag.move_to(7))
 oxwm.key.bind({modkey,"Shift"},"9", oxwm.tag.move_to(8))
 oxwm.key.bind({modkey,"Shift"},"0", oxwm.tag.move_to(9))
 
------------------------------
--- Restart / Exit
------------------------------
 oxwm.key.bind({modkey,"Shift"},"C", oxwm.restart())
 oxwm.key.bind({modkey,"Shift"},"S", oxwm.restart())
 oxwm.key.bind({modkey,"Shift"},"E", oxwm.quit())
 
------------------------------
--- Autostart
------------------------------
 oxwm.autostart("dbus-update-activation-environment --systemd DISPLAY I3SOCK XDG_CURRENT_DESKTOP=i3")
 oxwm.autostart("/usr/libexec/xdg-desktop-portal-gtk")
 oxwm.autostart("blueman-applet")
