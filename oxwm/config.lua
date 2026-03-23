@@ -7,7 +7,7 @@ local terminal = "alacritty"
 local launcher = "rofi -show drun"
 local filemanager = "pcmanfm"
 
-local tags = { "1","2","3","4","5","6","7","8","9","10" }
+local tags = { "1","2","3","4","5","6","7","8","9" }
 
 local colors = {
     bg = "#1a1b26",
@@ -20,7 +20,9 @@ local colors = {
 
 oxwm.set_terminal(terminal)
 oxwm.set_modkey(modkey)
+oxwm.tiled_resize_mode(true)
 oxwm.set_tags(tags)
+oxwm.auto_tile(true)
 
 oxwm.border.set_width(2)
 oxwm.border.set_focused_color(colors.active_bg)
@@ -36,27 +38,40 @@ oxwm.set_layout_symbol("tabbed","[=]")
 oxwm.bar.set_font("Iosevka Nerd Font:style=Bold:size=12")
 
 local blocks = {
-    oxwm.bar.block.datetime({
-        format = "{}",
-        date_format = "%a %b %d %H:%M",
-        interval = 1,
-        color = "#7dcfff",
-        underline = true,
-    }),
+    oxwm.bar.block.shell({
+    format = "󰕾 {}",
+    command = "wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{printf \"%d%%\\n\", $2 * 100}'",
+    interval = 1,
+    color = "#7aa2f7",
+    underline = false,
+}),
     oxwm.bar.block.static({
-        text = " │ ",
+        text = "│",
         interval = 999999999,
-        color = "#c0caf5",
+        color = "#7a8ba8",
         underline = false,
     }),
     oxwm.bar.block.battery({
         format = "BAT {}%",
-        charging = "⚡ {}%",
-        discharging = "🔋 {}%",
-        full = "✓ {}%",
+        charging = "󰂉 {}%",
+        discharging = "󰂀 {}%",
+        full = "󰁹 {}%",
         interval = 30,
-        color = "#9ece6a",
-        underline = true,
+        color = "#7aa2f7",
+        underline = false,
+    }),
+    oxwm.bar.block.static({
+        text = "│",
+        interval = 999999999,
+        color = "#7a8ba8",
+        underline = false,
+    }),
+    oxwm.bar.block.datetime({
+        format = "{}",
+        date_format = "󰃭 %a %b %d, 󰥔 %H:%M",
+        interval = 1,
+        color = "#7aa2f7",
+        underline = false,
     }),
 }
 
@@ -68,6 +83,7 @@ oxwm.bar.set_scheme_selected(colors.active_fg, colors.active_bg, colors.active_b
 oxwm.bar.set_scheme_urgent(colors.urgent, colors.bg, colors.urgent)
 
 oxwm.key.bind({"Control",altkey},"T", oxwm.spawn_terminal())
+oxwm.key.bind({ modkey }, "N", oxwm.layout.cycle())
 oxwm.key.bind({modkey},"E", oxwm.spawn({"sh","-c",filemanager}))
 oxwm.key.bind({modkey},"R", oxwm.spawn({"sh","-c",launcher}))
 oxwm.key.bind({},"Print", oxwm.spawn({"sh","-c","maim -s | xclip -selection clipboard -t image/png"}))
@@ -75,6 +91,9 @@ oxwm.key.bind({altkey},"F4", oxwm.client.kill())
 oxwm.key.bind({modkey,"Shift"},"Q", oxwm.client.kill())
 oxwm.key.bind({modkey},"F", oxwm.client.toggle_fullscreen())
 oxwm.key.bind({modkey},"T", oxwm.client.toggle_floating())
+oxwm.key.bind({}, "XF86AudioRaiseVolume", oxwm.spawn({"sh", "-c", "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"}))
+oxwm.key.bind({}, "XF86AudioLowerVolume", oxwm.spawn({"sh", "-c", "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"}))
+oxwm.key.bind({}, "XF86AudioMute",        oxwm.spawn({"sh", "-c", "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"}))
 
 oxwm.key.bind({altkey},"Left", oxwm.client.focus_stack(-1))
 oxwm.key.bind({altkey},"Right",oxwm.client.focus_stack(1))
@@ -97,7 +116,6 @@ oxwm.key.bind({modkey},"6", oxwm.tag.view(5))
 oxwm.key.bind({modkey},"7", oxwm.tag.view(6))
 oxwm.key.bind({modkey},"8", oxwm.tag.view(7))
 oxwm.key.bind({modkey},"9", oxwm.tag.view(8))
-oxwm.key.bind({modkey},"0", oxwm.tag.view(9))
 
 oxwm.key.bind({modkey,"Shift"},"1", oxwm.tag.move_to(0))
 oxwm.key.bind({modkey,"Shift"},"2", oxwm.tag.move_to(1))
@@ -108,7 +126,6 @@ oxwm.key.bind({modkey,"Shift"},"6", oxwm.tag.move_to(5))
 oxwm.key.bind({modkey,"Shift"},"7", oxwm.tag.move_to(6))
 oxwm.key.bind({modkey,"Shift"},"8", oxwm.tag.move_to(7))
 oxwm.key.bind({modkey,"Shift"},"9", oxwm.tag.move_to(8))
-oxwm.key.bind({modkey,"Shift"},"0", oxwm.tag.move_to(9))
 
 oxwm.key.bind({modkey,"Shift"},"C", oxwm.restart())
 oxwm.key.bind({modkey,"Shift"},"S", oxwm.restart())
