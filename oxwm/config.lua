@@ -42,7 +42,7 @@ local blocks = {
     format = "󰕾 {}",
     command = "wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{printf \"%d%%\\n\", $2 * 100}'",
     interval = 1,
-    color = "#7aa2f7",
+    color = "#c0caf5",
     underline = false,
 }),
     oxwm.bar.block.static({
@@ -57,7 +57,7 @@ local blocks = {
         discharging = "󰂀 {}%",
         full = "󰁹 {}%",
         interval = 30,
-        color = "#7aa2f7",
+        color = "#c0caf5",
         underline = false,
     }),
     oxwm.bar.block.static({
@@ -70,7 +70,7 @@ local blocks = {
         format = "{}",
         date_format = "󰃭 %a %b %d, 󰥔 %H:%M",
         interval = 1,
-        color = "#7aa2f7",
+        color = "#c0caf5",
         underline = false,
     }),
 }
