@@ -3,13 +3,13 @@
 
 local modkey = "Mod4"
 local altkey = "Mod1"
-local terminal = "st"
+local terminal = "alacritty"
 local launcher = "rofi -show drun"
 local filemanager = "pcmanfm"
 
 local tags = { "1","2","3","4","5","6","7","8","9" }
 
-local colors = {
+local colors = {e
     bg = "#1a1b26",
     active_bg = "#7aa2f7",
     active_fg = "#c0caf5",
