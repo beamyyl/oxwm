@@ -67,12 +67,12 @@ local blocks = {
  --   interval = 5,
  --   color = "#c0caf5",
  --   }),
- --  oxwm.bar.block.static({
- --      text = "│",
- --       interval = 999999999,
- --       color = "#7a8ba8",
- --       underline = false,
- --   }),
+   oxwm.bar.block.static({
+       text = "│",
+        interval = 999999999,
+        color = "#7a8ba8",
+        underline = false,
+    }),
     oxwm.bar.block.datetime({
         format = "{}",
         date_format = "󰃭 %a %b %d, 󰥔 %H:%M",
