@@ -59,9 +59,17 @@ local blocks = {
         interval = 30,
         color = "#c0caf5",
        underline = false,
-    }),
-    oxwm.bar.block.static({
-        text = "│",
+    }), 
+-- Or if u have BAT1 or wanna customize it even more :3
+--   oxwm.bar.block.shell({
+--       format = " {}",
+--       command = "cat /sys/class/power_supply/BAT1/capacity | tr -d '\\n' | xargs -I{} sh -c 's=$(cat /sys/class/power_supply/BAT1/status); p={}; if [ \"$s\" = \"Charging\" ]; then printf \"󰂈 %d%%\" $p; elif [ \"$s\" = \"Full\" ]; then printf \"󰁹 %d%%\" $p; elif [ $p -le 10 ]; then printf \"󰂎 %d%%\" $p; elif [ $p -le 25 ]; then printf \"󰁺 %d%%\" $p; elif [ $p -le 50 ]; then printf \"󰁼 %d%%\" $p; elif [ $p -le 75 ]; then printf \"󰁾 %d%%\" $p; else printf \"󰂀 %d%%\" $p; fi'",
+--       interval = 1,
+--       color = "#c0caf5",
+--       underline = false,
+--   }),
+   oxwm.bar.block.static({
+       text = "│",
         interval = 999999999,
         color = "#7a8ba8",
         underline = false,
