@@ -3,7 +3,7 @@
 
 local modkey = "Mod4"
 local altkey = "Mod1"
-local terminal = "alacritty"
+local terminal = "st"
 local launcher = "rofi -show drun"
 local filemanager = "pcmanfm"
 
@@ -60,20 +60,19 @@ local blocks = {
         color = "#c0caf5",
        underline = false,
     }), 
--- Or if u have BAT1 or wanna customize it even more :3
---   oxwm.bar.block.shell({
---       format = " {}",
---       command = "cat /sys/class/power_supply/BAT1/capacity | tr -d '\\n' | xargs -I{} sh -c 's=$(cat /sys/class/power_supply/BAT1/status); p={}; if [ \"$s\" = \"Charging\" ]; then printf \"󰂈 %d%%\" $p; elif [ \"$s\" = \"Full\" ]; then printf \"󰁹 %d%%\" $p; elif [ $p -le 10 ]; then printf \"󰂎 %d%%\" $p; elif [ $p -le 25 ]; then printf \"󰁺 %d%%\" $p; elif [ $p -le 50 ]; then printf \"󰁼 %d%%\" $p; elif [ $p -le 75 ]; then printf \"󰁾 %d%%\" $p; else printf \"󰂀 %d%%\" $p; fi'",
---       interval = 1,
---       color = "#c0caf5",
---       underline = false,
---   }),
-   oxwm.bar.block.static({
-       text = "│",
-        interval = 999999999,
-        color = "#7a8ba8",
-        underline = false,
-    }),
+ -- This one is for custom battery prompts. FIRST MAKE SURE TO RUN 'chmod +x ~/.config/oxwm/battery.sh' !!!! 
+ --  oxwm.bar.block.shell({
+ --   format = "{}",
+ --   command = "~/.config/oxwm/battery.sh",
+ --   interval = 5,
+ --   color = "#c0caf5",
+ --   }),
+ --  oxwm.bar.block.static({
+ --      text = "│",
+ --       interval = 999999999,
+ --       color = "#7a8ba8",
+ --       underline = false,
+ --   }),
     oxwm.bar.block.datetime({
         format = "{}",
         date_format = "󰃭 %a %b %d, 󰥔 %H:%M",
