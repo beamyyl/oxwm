@@ -39,12 +39,12 @@ oxwm.bar.set_font("Iosevka Nerd Font:style=Bold:size=12")
 
 local blocks = {
     oxwm.bar.block.shell({
-    format = "󰕾 {}",
-    command = "wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{printf \"%d%%\\n\", $2 * 100}'",
-    interval = 1,
-    color = "#c0caf5",
-    underline = false,
-}),
+        format = " {}",
+        command = "wpctl get-volume @DEFAULT_SINK@ | awk '{if ($NF==\"[MUTED]\") print \"󰝟 muted\"; else { v=$2*100; if (v<30) printf \"󰕿 %d%%\", v; else if (v<70) printf \"󰖀 %d%%\", v; else printf \"󰕾 %d%%\", v}}'",
+        interval = 1,
+        color = "#c0caf5",
+        underline = false,
+    }),
     oxwm.bar.block.static({
         text = "│",
         interval = 999999999,
@@ -52,13 +52,13 @@ local blocks = {
         underline = false,
     }),
     oxwm.bar.block.battery({
-        format = "BAT {}%",
+        format = "BAT1 {}%",
         charging = "󰂉 {}%",
         discharging = "󰂀 {}%",
         full = "󰁹 {}%",
         interval = 30,
         color = "#c0caf5",
-        underline = false,
+       underline = false,
     }),
     oxwm.bar.block.static({
         text = "│",
