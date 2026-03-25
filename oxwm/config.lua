@@ -13,6 +13,7 @@ local colors = {
     bg = "#1a1b26",
     active_bg = "#7aa2f7",
     active_fg = "#c0caf5",
+    light_blue = "#7aa2f7",
     inactive_bg = "#24283b",
     inactive_fg = "#c0caf5",
     urgent = "#f7768e"
@@ -52,7 +53,7 @@ local blocks = {
         underline = false,
     }),
     oxwm.bar.block.battery({
-        format = "BAT1 {}%",
+        format = "BAT {}%",
         charging = "󰂉 {}%",
         discharging = "󰂀 {}%",
         full = "󰁹 {}%",
@@ -85,9 +86,9 @@ local blocks = {
 oxwm.bar.set_blocks(blocks)
 
 oxwm.bar.set_scheme_normal(colors.inactive_fg, colors.bg, colors.inactive_bg)
-oxwm.bar.set_scheme_occupied(colors.active_fg, colors.bg, colors.active_bg)
-oxwm.bar.set_scheme_selected(colors.active_fg, colors.active_bg, colors.active_bg)
-oxwm.bar.set_scheme_urgent(colors.urgent, colors.bg, colors.urgent)
+oxwm.bar.set_scheme_occupied(colors.light_blue, colors.bg, colors.active_bg)
+oxwm.bar.set_scheme_selected(colors.light_blue, colors.active_bg, colors.active_bg)
+oxwm.bar.set_scheme_urgent(colors.urgent, colors.inactive_bg, colors.urgent)
 
 oxwm.key.bind({"Control",altkey},"T", oxwm.spawn_terminal())
 oxwm.key.bind({ modkey }, "N", oxwm.layout.cycle())
