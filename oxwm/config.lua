@@ -3,7 +3,7 @@
 
 local modkey = "Mod4"
 local altkey = "Mod1"
-local terminal = "alacritty"
+local terminal = "st"
 local launcher = "rofi -show drun"
 local filemanager = "pcmanfm"
 
@@ -39,6 +39,7 @@ oxwm.set_layout_symbol("tabbed","[=]")
 oxwm.bar.set_font("Iosevka Nerd Font:style=Bold:size=12")
 
 local blocks = {
+        oxwm.bar.block.systray(),
     oxwm.bar.block.shell({
         format = " {}",
         command = "wpctl get-volume @DEFAULT_SINK@ | awk '{if ($NF==\"[MUTED]\") print \"󰝟 muted\"; else { v=$2*100; if (v<30) printf \"󰕿 %d%%\", v; else if (v<70) printf \"󰖀 %d%%\", v; else printf \"󰕾 %d%%\", v}}'",
